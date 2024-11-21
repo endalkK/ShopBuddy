@@ -67,3 +67,27 @@ checkoutBtn.addEventListener("click", () => {
 
 // Initialize the store
 displayStoreItems();
+
+document.getElementById("move-robot-btn").addEventListener("click", () => {
+  if (shoppingBag.length === 0) {
+    alert("Your bag is empty! Add items first.");
+    return;
+  }
+
+  // Send the selected items to the Flask server
+  fetch("/move-robot", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(shoppingBag), // Send the shopping bag data
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert(data.message); // Display response from the server
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+});
+
